@@ -1,0 +1,31 @@
+Equipment Name,Type,Flowrate,Pressure,Temperature
+Pump-A1,Pump,150.5,5.2,45.3
+Pump-A2,Pump,160.0,5.5,46.0
+Pump-A3,Pump,155.3,5.0,44.8
+Valve-B1,Valve,200.0,7.5,50.0
+Valve-B2,Valve,195.5,7.2,49.5
+Valve-B3,Valve,205.0,7.8,51.0
+Heat-Exchanger-C1,Heat Exchanger,180.0,6.0,48.5
+Heat-Exchanger-C2,Heat Exchanger,175.5,5.8,47.8
+Heat-Exchanger-C3,Heat Exchanger,185.0,6.2,49.0
+Reactor-D1,Reactor,220.5,8.5,55.0
+Reactor-D2,Reactor,225.0,8.8,56.0
+Reactor-D3,Reactor,215.0,8.2,54.5
+Compressor-E1,Compressor,190.0,9.0,52.0
+Compressor-E2,Compressor,195.5,9.5,53.0
+Compressor-E3,Compressor,185.5,8.8,51.5
+Tank-F1,Tank,100.0,3.0,40.0
+Tank-F2,Tank,105.0,3.2,41.0
+Tank-F3,Tank,95.5,2.8,39.5
+Turbine-G1,Turbine,250.0,10.0,60.0
+Turbine-G2,Turbine,245.5,9.8,59.5
+Turbine-G3,Turbine,255.0,10.2,61.0
+Mixer-H1,Mixer,140.0,4.5,43.0
+Mixer-H2,Mixer,145.5,4.8,44.0
+Mixer-H3,Mixer,135.0,4.2,42.5
+Separator-I1,Separator,170.0,6.5,47.0
+Separator-I2,Separator,175.0,6.8,48.0
+Separator-I3,Separator,165.5,6.2,46.5
+Boiler-J1,Boiler,210.0,8.0,54.0
+Boiler-J2,Boiler,215.5,8.3,55.0
+Boiler-J3,Boiler,205.0,7.8,53.5
