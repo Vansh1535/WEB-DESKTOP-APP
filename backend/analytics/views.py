@@ -164,38 +164,41 @@ def delete_dataset(request, pk):
 @permission_classes([IsAuthenticated])
 def get_statistics(request):
     """
-    Get aggregated statistics from all user's completed datasets.
+    Get aggregated statistics from the most recent completed dataset.
     
-    GET /api/analytics/statistics/
+    GET /api/v1/analytics/csv/statistics/
     
     Returns:
         {
-            "total_datasets": 3,
             "total_equipment_count": 150,
-            "datasets": [...]
+            "by_type": {
+                "Pump": {"count": 50, "flowrate": {...}, ...},
+                ...
+            },
+            "overall_averages": {
+                "flowrate": 245.6,
+                "pressure": 8.2,
+                "temperature": 112.4
+            }
         }
     """
-    # Get only completed datasets
-    datasets = CSVDataset.objects.filter(
+    # Get the most recent completed dataset
+    latest_dataset = CSVDataset.objects.filter(
         uploaded_by=request.user,
         status='completed'
-    )
+    ).order_by('-uploaded_at').first()
     
-    # Calculate total equipment count
-    total_equipment_count = sum(
-        dataset.statistics.get('total_equipment_count', 0)
-        for dataset in datasets
-        if dataset.statistics
-    )
+    if not latest_dataset or not latest_dataset.statistics:
+        return Response(
+            {
+                'error': 'No statistics available. Please upload a CSV file.'
+            },
+            status=status.HTTP_404_NOT_FOUND
+        )
     
-    serializer = CSVDatasetSerializer(datasets, many=True)
-    
+    # Return the statistics from the latest dataset
     return Response(
-        {
-            'total_datasets': datasets.count(),
-            'total_equipment_count': total_equipment_count,
-            'datasets': serializer.data
-        },
+        latest_dataset.statistics,
         status=status.HTTP_200_OK
     )
 

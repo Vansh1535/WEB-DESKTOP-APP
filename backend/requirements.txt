@@ -1,8 +1,10 @@
 Django==4.2.7
 djangorestframework==3.14.0
+django-cors-headers==4.3.1
 pandas>=2.2.0
 numpy>=1.26.0
 python-dateutil==2.8.2
 pytz==2023.3
 sqlparse==0.4.4
 reportlab==4.0.7
+matplotlib>=3.8.0
