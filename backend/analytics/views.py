@@ -115,7 +115,7 @@ def retrieve_dataset(request, pk):
     """
     Retrieve a specific dataset by ID.
     
-    GET /api/analytics/csv/datasets/{id}/
+    GET /api/analytics/datasets/{id}/
     
     Returns:
         {
@@ -130,6 +130,34 @@ def retrieve_dataset(request, pk):
     serializer = CSVDatasetSerializer(dataset)
     
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_dataset_statistics(request, pk):
+    """
+    Get statistics for a specific dataset.
+    
+    GET /api/analytics/datasets/{id}/statistics/
+    
+    Returns:
+        Statistics dictionary from the dataset
+    """
+    dataset = get_object_or_404(CSVDataset, pk=pk, uploaded_by=request.user)
+    
+    if dataset.status != 'completed':
+        return Response(
+            {'error': 'Dataset processing not completed.'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    if not dataset.statistics:
+        return Response(
+            {'error': 'No statistics available for this dataset.'},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    
+    return Response(dataset.statistics, status=status.HTTP_200_OK)
 
 
 @api_view(['DELETE'])
@@ -205,11 +233,42 @@ def get_statistics(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
+def get_dataset_data(request, pk):
+    """
+    Get raw CSV data from a specific dataset.
+    
+    GET /api/analytics/datasets/{id}/data/
+    
+    Returns:
+        List of equipment data rows
+    """
+    dataset = get_object_or_404(CSVDataset, pk=pk, uploaded_by=request.user)
+    
+    if dataset.status != 'completed':
+        return Response(
+            {'error': 'Dataset processing not completed.'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    try:
+        import pandas as pd
+        df = pd.read_csv(dataset.file.path)
+        data = df.to_dict('records')
+        return Response(data, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response(
+            {'error': f'Failed to read dataset: {str(e)}'},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def generate_pdf_report(request, pk):
     """
     Generate and download PDF report for a specific dataset.
     
-    GET /api/analytics/csv/datasets/{id}/pdf/
+    GET /api/analytics/datasets/{id}/pdf-report/
     
     Returns:
         PDF file download

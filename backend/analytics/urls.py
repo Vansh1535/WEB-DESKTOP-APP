@@ -3,9 +3,10 @@ from . import views
 
 urlpatterns = [
     path('csv/upload/', views.upload_csv, name='upload-csv'),
-    path('csv/datasets/', views.list_datasets, name='list-datasets'),
-    path('csv/datasets/<int:pk>/', views.retrieve_dataset, name='retrieve-dataset'),
-    path('csv/datasets/<int:pk>/', views.delete_dataset, name='delete-dataset'),
-    path('csv/datasets/<int:pk>/pdf/', views.generate_pdf_report, name='generate-pdf'),
+    path('datasets/', views.list_datasets, name='list-datasets'),
+    path('datasets/<int:pk>/', views.retrieve_dataset, name='retrieve-dataset'),
+    path('datasets/<int:pk>/statistics/', views.get_dataset_statistics, name='dataset-statistics'),
+    path('datasets/<int:pk>/data/', views.get_dataset_data, name='dataset-data'),
+    path('datasets/<int:pk>/pdf-report/', views.generate_pdf_report, name='generate-pdf'),
     path('csv/statistics/', views.get_statistics, name='get-statistics'),
 ]

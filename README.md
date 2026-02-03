@@ -25,7 +25,7 @@ A full-stack application for uploading, analyzing, and visualizing chemical equi
 | Layer | Technology | Purpose |
 |-------|-----------|---------|
 | **Frontend (Web)** | Next.js 16 + React 19 + TypeScript | Modern web interface |
-| **Frontend (Desktop)** | PyQt5 + Matplotlib | Desktop application (planned) |
+| **Frontend (Desktop)** | PyQt5 + Matplotlib | Desktop application |
 | **Backend** | Django 4.2 + Django REST Framework | API server |
 | **Data Processing** | Pandas + NumPy | CSV analysis |
 | **Database** | SQLite | Data storage |
@@ -49,6 +49,12 @@ WEB_DESKTOP_APP/
 │   ├── components/        # React components
 │   ├── lib/               # API utilities
 │   └── public/            # Static assets
+│
+├── Desktop-App/           # PyQt5 Desktop Application
+│   ├── main.py           # Application entry point
+│   ├── ui/               # UI components
+│   ├── services/         # API client
+│   └── utils/            # Utilities
 │
 ├── START.bat              # Windows quick start
 ├── START.sh               # Linux/Mac quick start
@@ -82,32 +88,45 @@ cd Web-Frontend
 pnpm install
 ```
 
-### 3. Start Both Servers
+### 3. Start Applications
 
-**Option A: Automatic (Recommended)**
+**Backend (Required for all frontends):**
 ```bash
-# Windows
-START.bat
-
-# Linux/Mac
-chmod +x START.sh
-./START.sh
-```
-
-**Option B: Manual**
-```bash
-# Terminal 1 - Backend
+# Terminal 1
 cd backend
 python manage.py runserver
+```
 
-# Terminal 2 - Frontend  
+**Web Frontend:**
+```bash
+# Terminal 2
 cd Web-Frontend
 pnpm dev
 ```
 
+**Desktop Application:**
+```bash
+# Windows
+cd Desktop-App
+run.bat
+
+# Linux/Mac
+cd Desktop-App
+chmod +x run.sh
+./run.sh
+```
+
+Or manually:
+```bash
+cd Desktop-App
+pip install -r requirements.txt
+python main.py
+```
+
 ### 4. Access the Application
 
-- **Frontend**: http://localhost:3000
+- **Web Frontend**: http://localhost:3000
+- **Desktop App**: Launch via PyQt5 window
 - **Backend API**: http://localhost:8000
 - **Django Admin**: http://localhost:8000/admin
 

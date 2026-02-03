@@ -125,8 +125,19 @@ export async function login(username: string, password: string) {
     
     return { success: true, user: data.user };
   } else {
-    const error = await response.json();
-    return { success: false, error: error.error || 'Login failed' };
+    let errorMessage = 'Login failed';
+    try {
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const error = await response.json();
+        errorMessage = error.error || errorMessage;
+      } else {
+        errorMessage = `Server error: ${response.status} ${response.statusText}`;
+      }
+    } catch (e) {
+      errorMessage = `Server error: ${response.status}`;
+    }
+    return { success: false, error: errorMessage };
   }
 }
 
@@ -165,8 +176,19 @@ export async function register(
     
     return { success: true, user: data.user };
   } else {
-    const error = await response.json();
-    return { success: false, error: error.error || 'Registration failed' };
+    let errorMessage = 'Registration failed';
+    try {
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const error = await response.json();
+        errorMessage = error.error || errorMessage;
+      } else {
+        errorMessage = `Server error: ${response.status} ${response.statusText}`;
+      }
+    } catch (e) {
+      errorMessage = `Server error: ${response.status}`;
+    }
+    return { success: false, error: errorMessage };
   }
 }
 
@@ -211,8 +233,19 @@ export async function getUserProfile() {
     }
     return { success: true, data };
   } else {
-    const error = await response.json();
-    return { success: false, error: error.error || 'Failed to fetch profile' };
+    let errorMessage = 'Failed to fetch profile';
+    try {
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const error = await response.json();
+        errorMessage = error.error || errorMessage;
+      } else {
+        errorMessage = `Server error: ${response.status}`;
+      }
+    } catch (e) {
+      errorMessage = `Server error: ${response.status}`;
+    }
+    return { success: false, error: errorMessage };
   }
 }
 
@@ -228,8 +261,19 @@ export async function getUserPreferences() {
     const data: UserPreferences = await response.json();
     return { success: true, data };
   } else {
-    const error = await response.json();
-    return { success: false, error: error.error || 'Failed to fetch preferences' };
+    let errorMessage = 'Failed to fetch preferences';
+    try {
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const error = await response.json();
+        errorMessage = error.error || errorMessage;
+      } else {
+        errorMessage = `Server error: ${response.status}`;
+      }
+    } catch (e) {
+      errorMessage = `Server error: ${response.status}`;
+    }
+    return { success: false, error: errorMessage };
   }
 }
 
@@ -246,8 +290,19 @@ export async function updateUserPreferences(preferences: Partial<UserPreferences
     const data: UserPreferences = await response.json();
     return { success: true, data };
   } else {
-    const error = await response.json();
-    return { success: false, error: error.error || 'Failed to update preferences' };
+    let errorMessage = 'Failed to update preferences';
+    try {
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const error = await response.json();
+        errorMessage = error.error || errorMessage;
+      } else {
+        errorMessage = `Server error: ${response.status}`;
+      }
+    } catch (e) {
+      errorMessage = `Server error: ${response.status}`;
+    }
+    return { success: false, error: errorMessage };
   }
 }
 
@@ -267,11 +322,19 @@ export async function uploadCSV(file: File) {
     const data = await response.json();
     return { success: true, data };
   } else {
-    const error = await response.json();
-    return { 
-      success: false, 
-      error: error.error || error.details || 'Upload failed' 
-    };
+    let errorMessage = 'Upload failed';
+    try {
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const error = await response.json();
+        errorMessage = error.error || error.details || errorMessage;
+      } else {
+        errorMessage = `Server error: ${response.status}`;
+      }
+    } catch (e) {
+      errorMessage = `Server error: ${response.status}`;
+    }
+    return { success: false, error: errorMessage };
   }
 }
 
@@ -279,7 +342,7 @@ export async function uploadCSV(file: File) {
  * List all datasets
  */
 export async function listDatasets() {
-  const response = await apiRequest('/api/v1/analytics/csv/datasets/', {
+  const response = await apiRequest('/api/v1/analytics/datasets/', {
     method: 'GET',
   });
 
@@ -287,8 +350,19 @@ export async function listDatasets() {
     const data = await response.json();
     return { success: true, data };
   } else {
-    const error = await response.json();
-    return { success: false, error: error.error || 'Failed to fetch datasets' };
+    let errorMessage = 'Failed to fetch datasets';
+    try {
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const error = await response.json();
+        errorMessage = error.error || errorMessage;
+      } else {
+        errorMessage = `Server error: ${response.status}`;
+      }
+    } catch (e) {
+      errorMessage = `Server error: ${response.status}`;
+    }
+    return { success: false, error: errorMessage };
   }
 }
 
@@ -296,7 +370,7 @@ export async function listDatasets() {
  * Get specific dataset
  */
 export async function getDataset(id: number) {
-  const response = await apiRequest(`/api/v1/analytics/csv/datasets/${id}/`, {
+  const response = await apiRequest(`/api/v1/analytics/datasets/${id}/`, {
     method: 'GET',
   });
 
@@ -304,8 +378,19 @@ export async function getDataset(id: number) {
     const data = await response.json();
     return { success: true, data };
   } else {
-    const error = await response.json();
-    return { success: false, error: error.error || 'Failed to fetch dataset' };
+    let errorMessage = 'Failed to fetch dataset';
+    try {
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const error = await response.json();
+        errorMessage = error.error || errorMessage;
+      } else {
+        errorMessage = `Server error: ${response.status}`;
+      }
+    } catch (e) {
+      errorMessage = `Server error: ${response.status}`;
+    }
+    return { success: false, error: errorMessage };
   }
 }
 
@@ -313,7 +398,7 @@ export async function getDataset(id: number) {
  * Delete dataset
  */
 export async function deleteDataset(id: number) {
-  const response = await apiRequest(`/api/v1/analytics/csv/datasets/${id}/`, {
+  const response = await apiRequest(`/api/v1/analytics/datasets/${id}/`, {
     method: 'DELETE',
   });
 
@@ -321,8 +406,19 @@ export async function deleteDataset(id: number) {
     const data = await response.json();
     return { success: true, message: data.message };
   } else {
-    const error = await response.json();
-    return { success: false, error: error.error || 'Failed to delete dataset' };
+    let errorMessage = 'Failed to delete dataset';
+    try {
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const error = await response.json();
+        errorMessage = error.error || errorMessage;
+      } else {
+        errorMessage = `Server error: ${response.status}`;
+      }
+    } catch (e) {
+      errorMessage = `Server error: ${response.status}`;
+    }
+    return { success: false, error: errorMessage };
   }
 }
 
@@ -338,11 +434,19 @@ export async function getStatistics() {
     const data = await response.json();
     return { success: true, data };
   } else {
-    const error = await response.json();
-    return { 
-      success: false, 
-      error: error.error || 'No statistics available' 
-    };
+    let errorMessage = 'No statistics available';
+    try {
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const error = await response.json();
+        errorMessage = error.error || errorMessage;
+      } else {
+        errorMessage = `Server error: ${response.status}`;
+      }
+    } catch (e) {
+      errorMessage = `Server error: ${response.status}`;
+    }
+    return { success: false, error: errorMessage };
   }
 }
 
@@ -350,7 +454,7 @@ export async function getStatistics() {
  * Generate PDF report for a dataset
  */
 export async function generatePDF(id: number) {
-  const response = await apiRequest(`/api/v1/analytics/csv/datasets/${id}/pdf/`, {
+  const response = await apiRequest(`/api/v1/analytics/datasets/${id}/pdf-report/`, {
     method: 'GET',
   });
 
@@ -358,11 +462,19 @@ export async function generatePDF(id: number) {
     const blob = await response.blob();
     return { success: true, blob };
   } else {
-    const error = await response.json();
-    return { 
-      success: false, 
-      error: error.error || 'Failed to generate PDF' 
-    };
+    let errorMessage = 'Failed to generate PDF';
+    try {
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const error = await response.json();
+        errorMessage = error.error || errorMessage;
+      } else {
+        errorMessage = `Server error: ${response.status}`;
+      }
+    } catch (e) {
+      errorMessage = `Server error: ${response.status}`;
+    }
+    return { success: false, error: errorMessage };
   }
 }
 

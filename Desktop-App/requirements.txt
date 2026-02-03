@@ -1,0 +1,7 @@
+PyQt5>=5.15.9
+matplotlib>=3.7.1
+numpy>=1.24.3
+pandas>=2.0.2
+requests>=2.31.0
+reportlab>=4.0.4
+Pillow>=10.0.0

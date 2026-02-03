@@ -4,10 +4,12 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
 from .serializers import UserSerializer, LoginSerializer, UserPreferencesSerializer
 from .models import UserPreferences
 
 
+@csrf_exempt
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register_view(request):
@@ -84,6 +86,7 @@ def register_view(request):
         )
 
 
+@csrf_exempt
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def login_view(request):
